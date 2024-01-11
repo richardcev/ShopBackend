@@ -83,11 +83,9 @@ WSGI_APPLICATION = 'BackEnd.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "mssql",
-        "NAME": "dbshop",
-        "USER": "admin",
-        "PASSWORD": "rigoberto123",
-        "HOST": "dbinitial.cnzged0ldeny.us-east-1.rds.amazonaws.com",
-        "PORT": "1433",
+        "NAME": "MattMarket",
+        "HOST": "DESKTOP-1D2QBNB\SQLEXPRESS",
+        "PORT": "",
         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
         },
     },
@@ -138,8 +136,7 @@ CORS_ORIGIN_WHITELIST = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
