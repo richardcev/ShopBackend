@@ -1,73 +1,56 @@
 from django.shortcuts import render
-from .models import Producto, Marca, Categoria
+from .models import Producto, Marca, Categoria, SubCategoria
 from django.http import JsonResponse
-import json
 from unidecode import unidecode
+from .serializers import ProductoSerializer, CategoriaSerializer, SubCategoriaSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from .filters import ProductoFilter
 
+class Productos(viewsets.ModelViewSet):
+    serializer_class = ProductoSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['id' ,'nombre', 'precio', 'categoria', 'marca', 'subcategoria']
+    filterset_class = ProductoFilter
 
-# Create your views here.
+    def get_queryset(self):
+        queryset = Producto.objects.all()
+        return queryset
 
-def productos(request):
-    productos = Producto.objects.all()
-    data = {
-        'productos': [
-            productoFinal(request, producto)
-            for producto in productos
-        ]
-    }
-    return JsonResponse(data)
-
-def producto(request, id):
-    producto = Producto.objects.get(id=id)
-    print(producto)
-    data = {'producto' : productoFinal(request, producto)}
-    return JsonResponse(data)
-
-
-def categorias(request):
-    categorias= Categoria.objects.all()
-    data={'categorias': list(categorias.values())}
-    return JsonResponse(data)
-
-
-def filter_categoria(request, cat):
-    categoria = Categoria.objects.get(nombre=cat)
-    id_categoria = categoria.id
-    productos= Producto.objects.filter(categoria= id_categoria)
-    data = {
-        'productos': [
-            productoFinal(request, producto)
-            for producto in productos
-        ]
-    }
-    return JsonResponse(data)
-
-
-def search_producto(request):
-    filtro = request.GET.get('text')  # Obtiene el valor de búsqueda del objeto JSON
-    productos = Producto.objects.all()  # Filtra los productos que contienen el filtro en el nombre
-    data = {'productos': []}
-
-    for producto in productos:
-        palabras= producto.nombre.split(" ")
-        for palabra in palabras:
-            if unidecode(palabra.lower())==unidecode(filtro):
-                producto_data = productoFinal(request, producto)
-                data['productos'].append(producto_data)
-
-    return JsonResponse(data)
-
-
-def productoFinal(request, producto):
-    productofinal= {
-                    'id': producto.id,
-                    'nombre': producto.nombre,
-                    'descripcion': producto.descripcion,
-                    'precio': producto.precio,
-                    'imagen': request.build_absolute_uri(producto.imagen.url),
-                    'stock': producto.stock,
-                    'categoria': producto.categoria.nombre,
-                    'marca': producto.marca.nombre
-                }
-    return productofinal
+# def categorias(request):
+#     categorias = Categoria.objects.all()
+#     data = {'categorias': []}
     
+#     for categoria in categorias:
+#         subcategorias = SubCategoria.objects.filter(categoria=categoria)
+#         categoria_data = {
+#             'id': categoria.id,
+#             'nombre': categoria.nombre,
+#             'descripcion': categoria.descripcion,
+#             'subcategorias': list(subcategorias.values())
+#         }
+#         data['categorias'].append(categoria_data)
+    
+#     return JsonResponse(data)
+
+class CategoriasViewset(viewsets.ModelViewSet):
+    serializer_class = CategoriaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['id' ,'nombre', 'descripcion']
+
+    def get_queryset(self):
+        queryset = Categoria.objects.all()
+        return queryset
+    
+class SubCategoriasViewset(viewsets.ModelViewSet):
+    serializer_class = SubCategoriaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['id' ,'nombre', 'descripcion']
+
+    def get_queryset(self):
+        queryset = SubCategoria.objects.all()
+        return queryset

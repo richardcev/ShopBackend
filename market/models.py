@@ -1,10 +1,18 @@
 from django.db import models
 from django.contrib.sessions.models import Session
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
+    def __str__(self):
+        return self.nombre
+    
+class SubCategoria(models.Model):
+    nombre= models.CharField(max_length=100)
+    descripcion = models.TextField()
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     def __str__(self):
         return self.nombre
 
@@ -21,9 +29,15 @@ class Producto(models.Model):
     imagen = models.ImageField(upload_to='productos')
     stock = models.IntegerField()
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    subcategoria = models.ForeignKey(SubCategoria, on_delete=models.CASCADE)
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
     def __str__(self):
         return self.nombre
+    
+    def clean(self):
+        # Validar que la subcategoría seleccionada pertenezca a la categoría seleccionada
+        if self.subcategoria.categoria != self.categoria:
+            raise ValidationError('La subcategoría no pertenece a la categoría seleccionada.')
     
 class Carrito(models.Model):
     session = models.ForeignKey(Session, null=True, blank=True, on_delete=models.CASCADE)
