@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -86,15 +87,26 @@ WSGI_APPLICATION = 'BackEnd.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "mssql",
+#         "NAME": "MattMarket",
+#         "HOST": "DESKTOP-HAE72R0\SQLEXPRESS",
+#         "PORT": "",
+#         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
+#         },
+#     },
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "mssql",
-        "NAME": "MattMarket",
-        "HOST": "DESKTOP-HAE72R0\SQLEXPRESS",
-        "PORT": "",
-        "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
-        },
-    },
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('MYSQL_ADDON_DB'),
+        'USER': config('MYSQL_ADDON_USER'),
+        'PASSWORD': config('MYSQL_ADDON_PASSWORD'),
+        'HOST': config('MYSQL_ADDON_HOST'),
+        'PORT': config('MYSQL_ADDON_PORT'),
+    }
 }
 
 
