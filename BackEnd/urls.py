@@ -15,17 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from market import views
+from market.views import LoginView, RegisterView, Productos, CategoriasViewset, SubCategoriasViewset, LogoutView, UserDetailView
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework import routers
 
 router = routers.SimpleRouter()
-router.register(r'productos', views.Productos, basename="productos")
-router.register(r'categorias', views.CategoriasViewset, basename="categorias")
-router.register(r'subcategorias', views.SubCategoriasViewset, basename="subcategorias")
+router.register(r'productos', Productos, basename="productos")
+router.register(r'categorias', CategoriasViewset, basename="categorias")
+router.register(r'subcategorias', SubCategoriasViewset, basename="subcategorias")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('api/custom-login/', views.CustomAuthToken.as_view(), name='custom_token_auth'),
+    path('api/user/', UserDetailView.as_view(), name='user-detail'),
+    path('api/login/', LoginView.as_view(), name='login'),
+    path('api/logout/', LogoutView.as_view(), name='logout'),
+    path('api/register/', RegisterView.as_view(), name='register'),
     path('', include(router.urls)),
 ]+  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,6 +32,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# settings.py
+AUTH_USER_MODEL = 'market.CustomUser'
 
 # Application definition
 
@@ -45,6 +48,7 @@ INSTALLED_APPS = [
     'market',
     'rest_framework',
     'django_filters',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
@@ -86,7 +90,7 @@ DATABASES = {
     "default": {
         "ENGINE": "mssql",
         "NAME": "MattMarket",
-        "HOST": "DESKTOP-1D2QBNB\SQLEXPRESS",
+        "HOST": "DESKTOP-HAE72R0\SQLEXPRESS",
         "PORT": "",
         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
         },
@@ -113,7 +117,20 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': False,
 }
 
 # Internationalization

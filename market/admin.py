@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Producto, Carrito, ItemCarrito, Orden, ItemOrden, Marca, Categoria, SubCategoria
+from django.contrib.auth.admin import UserAdmin
+from .models import Producto, Carrito, ItemCarrito, Orden, ItemOrden, Marca, Categoria, SubCategoria, CustomUser
 
 # Register your models here.
 admin.site.register(Producto)
@@ -10,3 +11,4 @@ admin.site.register(ItemOrden)
 admin.site.register(Marca)
 admin.site.register(Categoria)
 admin.site.register(SubCategoria)
+admin.site.register(CustomUser, UserAdmin)
