@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Producto, Marca, Categoria, SubCategoria, CustomUser
+from .models import Producto, Marca, Categoria, SubCategoria, CustomUser, DescripcionProducto
 from .serializers import ProductoSerializer, CategoriaSerializer, SubCategoriaSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -10,7 +10,7 @@ from rest_framework.decorators import action
 from .filters import ProductoFilter
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import LoginSerializer, UserSerializer, RegisterSerializer
+from .serializers import LoginSerializer, UserSerializer, RegisterSerializer, DescripcionProductoSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.exceptions import TokenError
 
@@ -18,11 +18,20 @@ from rest_framework_simplejwt.exceptions import TokenError
 class Productos(viewsets.ModelViewSet):
     serializer_class = ProductoSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['id' ,'nombre', 'precio', 'categoria', 'marca', 'subcategoria']
+    filterset_fields = ['id' ,'nombre', 'categoria', 'marca', 'subcategoria']
     filterset_class = ProductoFilter
 
     def get_queryset(self):
         queryset = Producto.objects.all()
+        return queryset
+    
+class DetalleProductoViewSet(viewsets.ModelViewSet):
+    serializer_class = DescripcionProductoSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['id' , 'producto']
+
+    def get_queryset(self):
+        queryset = DescripcionProducto.objects.all()
         return queryset
 
 # def categorias(request):

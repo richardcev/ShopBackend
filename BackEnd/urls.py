@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from market.views import LoginView, RegisterView, Productos, CategoriasViewset, SubCategoriasViewset, LogoutView, UserDetailView
+from market.views import LoginView, RegisterView, Productos, CategoriasViewset, SubCategoriasViewset, LogoutView, UserDetailView, DetalleProductoViewSet
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework import routers
@@ -24,6 +24,8 @@ router = routers.SimpleRouter()
 router.register(r'productos', Productos, basename="productos")
 router.register(r'categorias', CategoriasViewset, basename="categorias")
 router.register(r'subcategorias', SubCategoriasViewset, basename="subcategorias")
+router.register(r'detalle-productos', DetalleProductoViewSet, basename="detalle-producto")
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
