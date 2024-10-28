@@ -44,10 +44,15 @@ class Producto(models.Model):
     def __str__(self):
         return self.nombre
     
+    
     def clean(self):
         # Validar que la subcategoría seleccionada pertenezca a la categoría seleccionada
         if self.subcategoria.categoria != self.categoria:
             raise ValidationError('La subcategoría no pertenece a la categoría seleccionada.')
+        
+class DescripcionProducto(models.Model):
+    caracteristica = models.CharField(max_length=255)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     
 class Carrito(models.Model):
     session = models.ForeignKey(Session, null=True, blank=True, on_delete=models.CASCADE)

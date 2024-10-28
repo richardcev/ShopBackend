@@ -88,27 +88,27 @@ WSGI_APPLICATION = 'BackEnd.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "mssql",
-#         "NAME": "MattMarket",
-#         "HOST": "DESKTOP-HAE72R0\SQLEXPRESS",
-#         "PORT": "",
-#         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
-#         },
-#     },
-# }
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('MYSQL_ADDON_DB'),
-        'USER': config('MYSQL_ADDON_USER'),
-        'PASSWORD': config('MYSQL_ADDON_PASSWORD'),
-        'HOST': config('MYSQL_ADDON_HOST'),
-        'PORT': config('MYSQL_ADDON_PORT'),
-    }
+    "default": {
+        "ENGINE": "mssql",
+        "NAME": "MattMarket",
+        "HOST": "DESKTOP-HAE72R0\SQLEXPRESS",
+        "PORT": "",
+        "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
+        },
+    },
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': config('MYSQL_ADDON_DB'),
+#         'USER': config('MYSQL_ADDON_USER'),
+#         'PASSWORD': config('MYSQL_ADDON_PASSWORD'),
+#         'HOST': config('MYSQL_ADDON_HOST'),
+#         'PORT': config('MYSQL_ADDON_PORT'),
+#     }
+# }
 
 
 # Password validation
